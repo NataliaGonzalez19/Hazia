@@ -8,23 +8,23 @@ const liderSemilleroSchema = mongoose.Schema({
     },
     correo: {
         type: String,
-        require: false,
+        require: true,
     },
     semillero: {
         type: String,
-        require: false,
+        require: true,
     },
     facultad: {
         type: String,
-        require: false,
+        require: true,
     },
     estado: {
         type: Boolean,
-        require: false,
+        require: true,
     },
     fechaRegistro: {
         type: Date,
-        require: false,
+        require: true,
     },
 
 
