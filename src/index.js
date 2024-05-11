@@ -1,30 +1,11 @@
-/*'use strict';
-const http = require('http');
-const server = http.createServer(function(req, res) {
-    res.writeHead(200, {'content-type' : 'text/plain' });
-    res.end(':)');
-});
-server.listen(5000);*/
-
-/*const express = require('express')
-const app = express()
-const port = 3000
-
-//Estructura base de app.get
-//app.get ('/', () => {})
-
-app.get ('/', (req, res) => {
-    res.send('¡Hola Mundo!, esto no es una página 😎')
-})
-
-app.listen (port, () => {
-    console.log('La aplicacion se esta ejecutando por el puerto ' + port)
-})*/
 const parser = require("body-parser"); //parser transforma la respuesta en .json
 const express = require('express');
 const app = express();
 const port = 3000;
+
 const liderSemillero = require("./routes/liderSemilleroRoutes");
+const authRoutes = require("./routes/authentication");
+
 const mongoose = require("mongoose");
 require('dotenv').config(); //dotenv para las variables de entorno
 
@@ -33,6 +14,7 @@ app.use(parser.json()); // transforma los datos a formato JSON
 
 //Gestión de las rutas usando el middleware
 app.use("/api", liderSemillero); //Ruta hacia el modulo de lideres de semillero
+app.use("/api", authRoutes); //Ruta hacia la validacion de usuarios
 app.use(express.json());
 
 //Conexión a la base de datos
