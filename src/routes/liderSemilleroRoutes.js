@@ -26,7 +26,7 @@ router.post("/lideres", (req, res) => {
 });
 
 //Endopoint para Consultar un lider de Semillero
-router.get("/lideres/:id", (req, res) => {
+/*router.get("/lideres/:id", (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
         .findOne({ _id: id })
