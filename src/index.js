@@ -24,7 +24,7 @@ const parser = require("body-parser"); //parser transforma la respuesta en .json
 const express = require('express');
 const app = express();
 const port = 3000;
-const proyectosRoutes = require("./routes/proyectosRoutes");
+const liderSemillero = require("./routes/liderSemilleroRoutes");
 const mongoose = require("mongoose");
 require('dotenv').config(); //dotenv para las variables de entorno
 
@@ -32,7 +32,7 @@ app.use(parser.urlencoded({ extended: false })); //permite leer los datos que vi
 app.use(parser.json()); // transforma los datos a formato JSON
 
 //Gestión de las rutas usando el middleware
-app.use("/api", proyectosRoutes);
+app.use("/api", liderSemillero);
 app.use(express.json());
 
 //Conexión a la base de datos
