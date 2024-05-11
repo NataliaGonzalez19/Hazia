@@ -3,9 +3,12 @@ const router = express.Router();
 const liderSemilleroSchema = require("../models/liderSemillero"); //Nuevo lider
 
 //Agregar verificacion de token
+const verifyToken = require("./validate_token");
+const { verify } = require("jsonwebtoken");
+
 
 //Endpoint para Nuevo Lider de Semillero
-router.post("/lideres", (req, res) => {
+router.post("/lideres", verifyToken, (req, res) => {
     const lider = liderSemilleroSchema(req.body);
     lider
         .save()
@@ -14,7 +17,7 @@ router.post("/lideres", (req, res) => {
 });
 
 //Endpoint para Consultar todos los lideres de semillero
-router.get("/lideres", (req, res) => {
+router.get("/lideres", verifyToken, (req, res) => {
     liderSemilleroSchema
         .find()
         .then((data) => {
@@ -26,7 +29,7 @@ router.get("/lideres", (req, res) => {
 });
 
 //Endopoint para Consultar un lider de Semillero
-router.get("/lideres/:id", (req, res) => {
+router.get("/lideres/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
         .findOne({ _id: id })
@@ -39,7 +42,7 @@ router.get("/lideres/:id", (req, res) => {
 });
 
 //Endpoint para Modificar un lider usando el id
-router.put("/lideres/:id", (req, res) => {
+router.put("/lideres/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     const { nombreLiderSemillero, correo, semillero, facultad, estado, fechaRegistro} = req.body;
     liderSemilleroSchema
@@ -58,7 +61,7 @@ router.put("/lideres/:id", (req, res) => {
 });
 
 //Endpoint para Eliminar un lider usando el id
-router.delete("/lideres/:id", (req, res) => {
+router.delete("/lideres/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
         .findByIdAndDelete({ _id: id })
