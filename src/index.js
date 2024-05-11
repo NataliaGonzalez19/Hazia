@@ -32,7 +32,7 @@ app.use(parser.urlencoded({ extended: false })); //permite leer los datos que vi
 app.use(parser.json()); // transforma los datos a formato JSON
 
 //Gestión de las rutas usando el middleware
-app.use("/api", liderSemillero);
+app.use("/api", liderSemillero); //Ruta hacia el modulo de lideres de semillero
 app.use(express.json());
 
 //Conexión a la base de datos
