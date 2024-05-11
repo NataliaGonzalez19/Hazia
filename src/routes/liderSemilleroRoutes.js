@@ -14,7 +14,7 @@ router.post("/lideres", (req, res) => {
 });
 
 //Endpoint para Consultar todos los lideres de semillero
-/*router.get("/lideres", (req, res) => {
+router.get("/lideres", (req, res) => {
     liderSemilleroSchema
         .find()
         .then((data) => {
@@ -26,7 +26,7 @@ router.post("/lideres", (req, res) => {
 });
 
 //Endopoint para Consultar un lider de Semillero
-/*router.get("/lideres/:id", (req, res) => {
+router.get("/lideres/:id", (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
         .findOne({ _id: id })
@@ -58,7 +58,7 @@ router.put("/lideres/:id", (req, res) => {
 });
 
 //Endpoint para Eliminar un lider usando el id
-router.delete("/lideres/:id", (req, res) => {
+/*router.delete("/lideres/:id", (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
         .findByIdAndDelete({ _id: id })
