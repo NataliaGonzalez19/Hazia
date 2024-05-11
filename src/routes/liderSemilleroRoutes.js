@@ -5,16 +5,16 @@ const liderSemilleroSchema = require("../models/liderSemillero"); //Nuevo lider
 //Agregar verificacion de token
 
 //Endpoint para Nuevo Lider de Semillero
-router.post("/liderSemillero", (req, res) => {
+router.post("/lideres", (req, res) => {
     const lider = liderSemilleroSchema(req.body);
     lider
         .save()
-        .then((data) => res.json(data))
+        .then((data) => res.json(data)) //Promesa de la petición then si no me devuelve algo positivo pues el catch me muestra el error 
         .catch((error) => res.json({ message: error }));
 });
 
 //Endpoint para Consultar todos los lideres de semillero
-router.get("/liderSemillero", (req, res) => {
+/*router.get("/lideres", (req, res) => {
     liderSemilleroSchema
         .find()
         .then((data) => {
@@ -26,7 +26,7 @@ router.get("/liderSemillero", (req, res) => {
 });
 
 //Endopoint para Consultar un lider de Semillero
-router.get("/liderSemillero/:id", (req, res) => {
+router.get("/lideres/:id", (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
         .findOne({ _id: id })
@@ -39,7 +39,7 @@ router.get("/liderSemillero/:id", (req, res) => {
 });
 
 //Endpoint para Modificar un lider usando el id
-router.put("/liderSemillero/:id", (req, res) => {
+router.put("/lideres/:id", (req, res) => {
     const { id } = req.params;
     const { nombreLiderSemillero, correo, semillero, facultad, estado, fechaRegistro} = req.body;
     liderSemilleroSchema
@@ -58,7 +58,7 @@ router.put("/liderSemillero/:id", (req, res) => {
 });
 
 //Endpoint para Eliminar un lider usando el id
-router.delete("/liderSemillero/:id", (req, res) => {
+router.delete("/lideres/:id", (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
         .findByIdAndDelete({ _id: id })
@@ -68,5 +68,6 @@ router.delete("/liderSemillero/:id", (req, res) => {
         .catch((error) => {
             res.json({ message: error });
         });
-});
+});*/
+
 module.exports = router;
