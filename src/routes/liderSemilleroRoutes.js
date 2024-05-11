@@ -58,7 +58,7 @@ router.put("/lideres/:id", (req, res) => {
 });
 
 //Endpoint para Eliminar un lider usando el id
-/*router.delete("/lideres/:id", (req, res) => {
+router.delete("/lideres/:id", (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
         .findByIdAndDelete({ _id: id })
@@ -68,6 +68,6 @@ router.put("/lideres/:id", (req, res) => {
         .catch((error) => {
             res.json({ message: error });
         });
-});*/
+});
 
 module.exports = router;
