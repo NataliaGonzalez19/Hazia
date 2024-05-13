@@ -14,6 +14,10 @@ const liderSemilleroSchema = mongoose.Schema({
         type: String,
         require: true,
     },
+    descripcionSemillero: {
+        type: String,
+        require: true,
+    },
     facultad: {
         type: String,
         require: true,

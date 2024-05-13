@@ -7,7 +7,7 @@ const verifyToken = require("./validate_token");
 const { verify } = require("jsonwebtoken");
 
 
-//Endpoint para Nuevo Lider de Semillero
+//Endpoint para crear un nuevo semillero
 router.post("/lideres", verifyToken, (req, res) => {
     const lider = liderSemilleroSchema(req.body);
     lider
@@ -16,7 +16,7 @@ router.post("/lideres", verifyToken, (req, res) => {
         .catch((error) => res.json({ message: error }));
 });
 
-//Endpoint para Consultar todos los lideres de semillero
+//Endpoint para Consultar todos los semilleros
 router.get("/lideres", verifyToken, (req, res) => {
     liderSemilleroSchema
         .find()
@@ -28,7 +28,7 @@ router.get("/lideres", verifyToken, (req, res) => {
         });
 });
 
-//Endopoint para Consultar un lider de Semillero
+//Endopoint para Consultar un semillero en especifico
 router.get("/lideres/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
@@ -41,15 +41,15 @@ router.get("/lideres/:id", verifyToken, (req, res) => {
         });
 });
 
-//Endpoint para Modificar un lider usando el id
+//Endpoint para Modificar un semillero
 router.put("/lideres/:id", verifyToken, (req, res) => {
     const { id } = req.params;
-    const { nombreLiderSemillero, correo, semillero, facultad, estado, fechaRegistro} = req.body;
+    const { nombreLiderSemillero, correo, semillero, descripcionSemillero, facultad, estado, fechaRegistro} = req.body;
     liderSemilleroSchema
         .updateOne(
             { _id: id },
             {
-                $set: { nombreLiderSemillero, correo, semillero, facultad, estado, fechaRegistro},
+                $set: { nombreLiderSemillero, correo, semillero, descripcionSemillero, facultad, estado, fechaRegistro},
             }
         )
         .then((data) => {
@@ -60,7 +60,7 @@ router.put("/lideres/:id", verifyToken, (req, res) => {
         });
 });
 
-//Endpoint para Eliminar un lider usando el id
+//Endpoint para Eliminar un semillero
 router.delete("/lideres/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
