@@ -16,7 +16,7 @@ router.post("/administradores", verifyToken, (req, res) => {
         .catch((error) => res.json({ message: error }));
 });
 
-//Endpoint para Consultar todos los administrador
+//Endpoint para Consultar administrador
 router.get("/administradores", verifyToken, (req, res) => {
     administradorSchema
         .find()
