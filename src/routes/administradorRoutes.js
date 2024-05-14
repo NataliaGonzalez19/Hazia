@@ -17,7 +17,7 @@ router.post("/administradores", verifyToken, (req, res) => {
 });
 
 //Endpoint para Consultar administrador
-router.get("/administradores", verifyToken, (req, res) => {
+router.get("/administradores , dsadasda ", verifyToken, (req, res) => {
     administradorSchema
         .find()
         .then((data) => {
