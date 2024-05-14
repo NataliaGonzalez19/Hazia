@@ -17,6 +17,8 @@ app.use(parser.urlencoded({ extended: false })); //permite leer los datos que vi
 app.use(parser.json()); // transforma los datos a formato JSON
 
 //Gestión de las rutas usando el middleware
+app.use("/api", authRoutes);
+app.use("/api", seedRoutes);
 app.use("/api", liderSemillero); //Ruta hacia el modulo de lideres de semillero
 app.use("/api", authRoutes); //Ruta hacia la validacion de usuarios
 app.use("/api", administrador); //Ruta hacia la validacion de administrador
