@@ -3,7 +3,7 @@ const router = express.Router(); //manejador de rutas de express
 const semilleroSchema = require("../models/seeds");
 const verifyToken = require('./student_token');
 
-// 5 Commit peticiones de semilleros y datos de registro
+// Peticiones de semilleros Post , get, read and delete
 
 //Nuevo Evento Post (Create)
 router.post("/seeds", (req, res) => {
