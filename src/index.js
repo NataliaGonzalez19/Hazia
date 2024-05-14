@@ -20,6 +20,16 @@ app.use(parser.json()); // transforma los datos a formato JSON
 app.use("/api", liderSemillero); //Ruta hacia el modulo de lideres de semillero
 app.use("/api", authRoutes); //Ruta hacia la validacion de usuarios
 app.use("/api", administrador); //Ruta hacia la validacion de administrador
+//Definir el endpoint para generar y descargar el PDF
+app.get("/api/pdf/download", async (req, res) => {
+    try {
+      const filename = await generatePDF();
+      res.download(filename); // Envía el archivo como respuesta
+    } catch (error) {
+      console.error('Error al generar el PDF:', error);
+      res.status(500).json({ message: 'Error al generar el PDF' });
+    }
+  });
 
 app.use(express.json());
 
