@@ -28,7 +28,7 @@ router.get("/administradores", verifyToken, (req, res) => {
         });
 });
 
-//Endopoint para Consultar un administrador
+//Endopoint para Consultar administrador
 router.get("/administradores/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     administradorSchema
