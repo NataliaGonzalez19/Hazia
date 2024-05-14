@@ -1,24 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const administradorSchema = require("../models/administrador"); //Modelo de administrador
+const semilleroSchema = require("../models/semillero"); //Modelo de semilleros
 
 //Agregar verificacion de token
 const verifyToken = require("./validate_token");
 const { verify } = require("jsonwebtoken");
 
 
-//Endpoint para Nuevo Administrador
-router.post("/administradores", verifyToken, (req, res) => {
-    const admin = administradorSchema(req.body);
-    admin
+//Endpoint para Nuevo semillero
+router.post("/semilleros", verifyToken, (req, res) => {
+    const semillero = semilleroSchema(req.body);
+    semillero
         .save()
         .then((data) => res.json(data)) 
         .catch((error) => res.json({ message: error }));
 });
 
-//Endpoint para Consultar administradores
-router.get("/administradores", verifyToken, (req, res) => {
-    administradorSchema
+//Endpoint para Consultar semilleros
+router.get("/semilleros", verifyToken, (req, res) => {
+    semilleroSchema
         .find()
         .then((data) => {
             res.json(data);
@@ -28,9 +28,9 @@ router.get("/administradores", verifyToken, (req, res) => {
         });
 });
 
-//Endpoint para Consultar administradores por ID
-router.get("/administradores/:id", verifyToken, (req, res) => {
-    administradorSchema
+//Endpoint para Consultar semillero por ID
+router.get("/semilleros/:id", verifyToken, (req, res) => {
+    semilleroSchema
         .find()
         .then((data) => {
             res.json(data);
@@ -40,15 +40,16 @@ router.get("/administradores/:id", verifyToken, (req, res) => {
         });
 });
 
-//Endpoint para Modificar un administrador usando el id
-router.put("/administradores/:id", verifyToken, (req, res) => {
+
+//Endpoint para Modificar un semillero usando el id
+router.put("/semilleros/:id", verifyToken, (req, res) => {
     const { id } = req.params;
-    const { nombreAdmin, edad, fechaRegistro, isAdmin, cargo } = req.body;
-    administradorSchema
+    const { nombreSemillero, descripcion, liderSemillero, fechaCreacion, estado, participantes } = req.body;
+    semilleroSchema
         .updateOne(
             { _id: id },
             {
-                $set: { nombreAdmin, edad, fechaRegistro, isAdmin, cargo},
+                $set: { nombreSemillero, descripcion, liderSemillero, fechaCreacion, estado, participantes},
             }
         )
         .then((data) => {
@@ -60,9 +61,9 @@ router.put("/administradores/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para Eliminar administrador usando el id
-router.delete("/administradores/:id", verifyToken, (req, res) => {
+router.delete("/semilleros/:id", verifyToken, (req, res) => {
     const { id } = req.params;
-    administradorSchema
+    semilleroSchema
         .findByIdAndDelete({ _id: id })
         .then((data) => {
             res.json(data);

@@ -6,6 +6,7 @@ const port = 3000;
 const liderSemillero = require("./routes/liderSemilleroRoutes");
 const authRoutes = require("./routes/authentication");
 const administradorRoutes = require("./routes/administradorRoutes");
+const semilleroRoutes = require("./routes/semilleroRoutes");
 
 const mongoose = require("mongoose");
 require('dotenv').config(); //dotenv para las variables de entorno
@@ -17,6 +18,7 @@ app.use(parser.json()); // transforma los datos a formato JSON
 app.use("/api", liderSemillero); //Ruta hacia el modulo de lideres de semillero
 app.use("/api", authRoutes); //Ruta hacia la validacion de usuarios
 app.use("/api", administradorRoutes); //Ruta hacia la validacion de administrador
+app.use("/api", semilleroRoutes); //Ruta hacia los semilleros
 app.use(express.json());
 
 //Conexión a la base de datos

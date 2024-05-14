@@ -23,7 +23,7 @@ const semilleroSchema = mongoose.Schema({
         require: true,
     },
     participantes: {
-        type: Date,
+        type: String,
         require: true,
     },
     
