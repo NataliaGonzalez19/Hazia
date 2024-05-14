@@ -2,30 +2,27 @@ const mongoose = require("mongoose");
 
 const administradorSchema = mongoose.Schema({
 
-    nombreSemillero: {
+    nombreAdmin: {
         type: String,
         require: true,
     },
-    descripcion: {
+    edad: {
         type: String,
         require: true,
     },
-    liderSemillero: {
-        type: String,
-        require: true,
-    },
-    fechaCreacion: {
+    fechaRegistro: {
         type: Date,
         require: true,
     },
-    estado: {
+    isAdmin: {
         type: Boolean,
         require: true,
     },
-    participantes: {
-        type: Date,
+    cargo: {
+        type: String,
         require: true,
     },
+
     
 });
 
