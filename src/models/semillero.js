@@ -29,4 +29,4 @@ const semilleroSchema = mongoose.Schema({
     
 });
 
-module.exports = mongoose.model("Admnistradores", semilleroSchema);
+module.exports = mongoose.model("Semilleros", semilleroSchema);

@@ -43,7 +43,7 @@ router.get("/semilleros/:id", /*verifyToken,*/ (req, res) => {
 });
 
 //Endpoint para Modificar un semillero
-router.put("/semilleros/:id", verifyToken, (req, res) => {
+router.put("/semilleros/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     const { nombreSemillero, descripcion, liderSemillero, fechaCreacion, estado, participantes} = req.body;
     semillero
@@ -62,7 +62,7 @@ router.put("/semilleros/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para Eliminar un semillero
-router.delete("/semilleros/:id", verifyToken, (req, res) => {
+router.delete("/semilleros/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     semillero
         .findByIdAndDelete({ _id: id })

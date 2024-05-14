@@ -10,7 +10,7 @@ const { verify } = require("jsonwebtoken");
 
 
 //Endpoint para Nuevo Administrador
-router.post("/administradores", verifyToken, (req, res) => {
+router.post("/administradores", /*verifyToken,*/ (req, res) => {
     const admin = administradorSchema(req.body);
     admin
         .save()
@@ -19,7 +19,7 @@ router.post("/administradores", verifyToken, (req, res) => {
 });
 
 //Endpoint para nuevo Semillero
-router.post("/semilleros", verifyToken, (req, res) => {
+router.post("/semilleros", /*verifyToken,*/ (req, res) => {
     const semillero = semilleroSchema(req.body);
     semillero
         .save()
@@ -29,7 +29,7 @@ router.post("/semilleros", verifyToken, (req, res) => {
 
 
 //EndPoint para nuevo Lider de semillero
-router.post("/liderSemilleros", verifyToken, (req, res) => {
+router.post("/liderSemilleros", /*verifyToken,*/ (req, res) => {
     const lider = liderSemilleroSchema(req.body);
     lider
         .save()
@@ -39,7 +39,7 @@ router.post("/liderSemilleros", verifyToken, (req, res) => {
 
 
 //Endpoint para Consultar administrador
-router.get("/administradores", verifyToken, (req, res) => {
+router.get("/administradores", /*verifyToken,*/ (req, res) => {
     administradorSchema
         .find()
         .then((data) => {
@@ -51,7 +51,7 @@ router.get("/administradores", verifyToken, (req, res) => {
 });
 
 //Endpoint para Consultar semilleros
-router.get("/semilleros", verifyToken, (req, res) => {
+router.get("/semilleros", /*verifyToken,*/ (req, res) => {
     semilleroSchema
         .find()
         .then((data) => {
@@ -64,7 +64,7 @@ router.get("/semilleros", verifyToken, (req, res) => {
 
 
 //Endpoint para Consultar lideres de semilleros
-router.get("/liderSemilleros", verifyToken, (req, res) => {
+router.get("/liderSemilleros", /*verifyToken,*/ (req, res) => {
     liderSemilleroSchema
         .find()
         .then((data) => {
@@ -76,7 +76,7 @@ router.get("/liderSemilleros", verifyToken, (req, res) => {
 });
 
 //Endopoint para Consultar semilleros por ID
-router.get("/semilleros/:id", verifyToken, (req, res) => {
+router.get("/semilleros/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     semilleroSchema
         .findOne({ _id: id })
@@ -89,7 +89,7 @@ router.get("/semilleros/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para consultar lider de semillero por ID
-router.get("/liderSemilleros/:id", verifyToken, (req, res) => {
+router.get("/liderSemilleros/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
         .findOne({ _id: id })
@@ -102,7 +102,7 @@ router.get("/liderSemilleros/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para Modificar un administrador usando el id
-router.put("/administradores/:id", verifyToken, (req, res) => {
+router.put("/administradores/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     const { nombreAdmin, edad, fechaRegistro, isAdmin, cargo } = req.body;
     administradorSchema
@@ -121,7 +121,7 @@ router.put("/administradores/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para Modificar un semillero usando el id
-router.put("/semilleros/:id", verifyToken, (req, res) => {
+router.put("/semilleros/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     const { nombreSemillero, descripcion, liderSemillero, fechaCreacion, estado, participantes } = req.body;
     semilleroSchema
@@ -140,7 +140,7 @@ router.put("/semilleros/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para Modificar un lider de semillero usando el id
-router.put("/liderSemilleros/:id", verifyToken, (req, res) => {
+router.put("/liderSemilleros/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     const { nombreLiderSemillero, nombreUniversidad, facultad, estado, fechaRegistro } = req.body;
     semilleroSchema
@@ -159,7 +159,7 @@ router.put("/liderSemilleros/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para Eliminar administrador usando el id
-router.delete("/administradores/:id", verifyToken, (req, res) => {
+router.delete("/administradores/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     administradorSchema
         .findByIdAndDelete({ _id: id })
@@ -172,7 +172,7 @@ router.delete("/administradores/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para Eliminar semillero usando el id
-router.delete("/semilleros/:id", verifyToken, (req, res) => {
+router.delete("/semilleros/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     semilleroSchema
         .findByIdAndDelete({ _id: id })
@@ -185,7 +185,7 @@ router.delete("/semilleros/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para Eliminar lider de semillero usando el id
-router.delete("/liderSemillero/:id", verifyToken, (req, res) => {
+router.delete("/liderSemillero/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
     liderSemilleroSchema
         .findByIdAndDelete({ _id: id })
