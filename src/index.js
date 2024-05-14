@@ -6,7 +6,7 @@ const port = 3000;
 const liderSemillero = require("./routes/liderSemilleroRoutes");
 const authRoutes = require("./routes/authentication");
 const administrador = require("./routes/administradorRoutes");
-const authRoutes = require("./routes/authentication");
+const studentRoutes = require("./routes/student");
 const seedRoutes = require("./routes/seeds");
 const generatePDF = require("./routes/generatePDF");
 
