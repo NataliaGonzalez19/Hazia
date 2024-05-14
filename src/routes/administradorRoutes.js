@@ -60,7 +60,7 @@ router.put("/administradores/:id", verifyToken, (req, res) => {
         });
 });
 
-//Endpoint para Eliminar un administrador usando el id
+//Endpoint para Eliminar administrador usando el id
 router.delete("/administradores/:id", verifyToken, (req, res) => {
     const { id } = req.params;
     administradorSchema
