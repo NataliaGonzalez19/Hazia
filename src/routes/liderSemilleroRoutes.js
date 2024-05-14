@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const liderSemilleroSchema = require("../models/liderSemillero"); //Nuevo lider
+const liderSemilleroSchema = require("../models/liderSemillero"); //Modelo de lider
+const semillero = require("../models/semillero"); //Modelo de semillero
 
 //Agregar verificacion de token
 const verifyToken = require("./validate_token");
@@ -8,17 +9,17 @@ const { verify } = require("jsonwebtoken");
 
 
 //Endpoint para crear un nuevo semillero
-router.post("/lideres", verifyToken, (req, res) => {
+/*router.post("/lideres", verifyToken, (req, res) => {
     const lider = liderSemilleroSchema(req.body);
     lider
         .save()
         .then((data) => res.json(data)) //Promesa de la petición then si no me devuelve algo positivo pues el catch me muestra el error 
         .catch((error) => res.json({ message: error }));
-});
+});*/
 
 //Endpoint para Consultar todos los semilleros
-router.get("/lideres", verifyToken, (req, res) => {
-    liderSemilleroSchema
+router.get("/semilleros", /*verifyToken,*/ (req, res) => {
+    semillero
         .find()
         .then((data) => {
             res.json(data);
@@ -29,9 +30,9 @@ router.get("/lideres", verifyToken, (req, res) => {
 });
 
 //Endopoint para Consultar un semillero en especifico
-router.get("/lideres/:id", verifyToken, (req, res) => {
+router.get("/semilleros/:id", /*verifyToken,*/ (req, res) => {
     const { id } = req.params;
-    liderSemilleroSchema
+    semillero
         .findOne({ _id: id })
         .then((data) => {
             res.json(data);
@@ -42,14 +43,14 @@ router.get("/lideres/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para Modificar un semillero
-router.put("/lideres/:id", verifyToken, (req, res) => {
+router.put("/semilleros/:id", verifyToken, (req, res) => {
     const { id } = req.params;
-    const { nombreLiderSemillero, correo, semillero, descripcionSemillero, facultad, estado, fechaRegistro} = req.body;
-    liderSemilleroSchema
+    const { nombreSemillero, descripcion, liderSemillero, fechaCreacion, estado, participantes} = req.body;
+    semillero
         .updateOne(
             { _id: id },
             {
-                $set: { nombreLiderSemillero, correo, semillero, descripcionSemillero, facultad, estado, fechaRegistro},
+                $set: { nombreSemillero, descripcion, liderSemillero, fechaCreacion, estado, participantes},
             }
         )
         .then((data) => {
@@ -61,9 +62,9 @@ router.put("/lideres/:id", verifyToken, (req, res) => {
 });
 
 //Endpoint para Eliminar un semillero
-router.delete("/lideres/:id", verifyToken, (req, res) => {
+router.delete("/semilleros/:id", verifyToken, (req, res) => {
     const { id } = req.params;
-    liderSemilleroSchema
+    semillero
         .findByIdAndDelete({ _id: id })
         .then((data) => {
             res.json(data);

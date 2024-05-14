@@ -23,7 +23,6 @@ const administradorSchema = mongoose.Schema({
         require: true,
     },
 
-    
 });
 
 module.exports = mongoose.model("Admnistradores", administradorSchema);

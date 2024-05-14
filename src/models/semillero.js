@@ -1,28 +1,32 @@
 const mongoose = require("mongoose");
 
-const liderSemilleroSchema = mongoose.Schema({
+const semilleroSchema = mongoose.Schema({
 
-    nombreLiderSemillero: {
+    nombreSemillero: {
         type: String,
         require: true,
     },
-    nombreUniversidad: {
+    descripcion: {
         type: String,
         require: true,
     },
-    facultad: {
+    liderSemillero: {
         type: String,
+        require: true,
+    },
+    fechaCreacion: {
+        type: Date,
         require: true,
     },
     estado: {
         type: Boolean,
         require: true,
     },
-    fechaRegistro: {
+    participantes: {
         type: Date,
         require: true,
     },
-
+    
 });
 
-module.exports = mongoose.model("LiderSemillero", liderSemilleroSchema);
+module.exports = mongoose.model("Admnistradores", semilleroSchema);
