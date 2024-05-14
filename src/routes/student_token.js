@@ -11,11 +11,23 @@ const token = req.header('access-token')
 if (!token) return res.status(401).json
 ({ error: '¡Lo sentimos!, pero no tiene permisos para acceder a esta ruta.' })
 try {
-   
+    router.post("/seed", async (req, res) => {
+        // validaciones
+        const { error } = perfilalumnoSchema.validate(req.body.codigo);
+        if (error) return res.status(400).json({ error: error.details[0].message });
+        //Buscando el usuario por su dirección de correo
+        const perfilal = await perfilalumnoSchema.findOne({ codigo: req.body.codigo });
+         //validando si no se encuentra
+        if (!perfilal) return res.status(400).json({ error: "Perfil  no encontrado" });
+        res.json({
+         error: null,
+        data: "Datos de alumno y token generado coinciden",
+        
+        });
         const verified = jwt.verify(token, process.env.SECRET)
 req.user = verified
  next()
-        
+        });
     
  // Si en token es correcto, se puede continuar
 } catch (error) {
