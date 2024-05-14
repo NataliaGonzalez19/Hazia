@@ -26,8 +26,7 @@ const administradorSchema = mongoose.Schema({
         type: Date,
         require: true,
     },
-
-
+    
 });
 
-module.exports = mongoose.model("Admnistrador", administradorSchema);
+module.exports = mongoose.model("Admnistradores", administradorSchema);
