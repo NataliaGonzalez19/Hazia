@@ -2,6 +2,14 @@ const mongoose = require("mongoose");
 
 const semilleroSchema = mongoose.Schema({
 
+    codigo: {
+        type: String,
+        required: true,
+    },
+    liderSemillero: {
+        type: String,
+        require: true,
+    },
     nombreSemillero: {
         type: String,
         require: true,
@@ -10,16 +18,12 @@ const semilleroSchema = mongoose.Schema({
         type: String,
         require: true,
     },
-    liderSemillero: {
-        type: String,
-        require: true,
-    },
     fechaCreacion: {
         type: Date,
         require: true,
     },
-    estado: {
-        type: Boolean,
+    facultad: {
+        type: String,
         require: true,
     },
     participantes: {
