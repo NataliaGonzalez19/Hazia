@@ -26,11 +26,34 @@ const semilleroSchema = mongoose.Schema({
         type: String,
         require: true,
     },
-    participantes: {
-        type: String,
-        require: true,
+    integrantes: {
+        type: Array,
+        required: true,
+        of: {
+            type: Object,
+            required: true,
+            properties: {
+                nombre: {
+                    type: String,
+                    required: true,
+                },
+                correo: {
+                    type: String,
+                    required: true,
+                },
+                cedula: {
+                    type: String,
+                    required: true,
+                },
+                semillero: {
+                    type:String,
+                    required: true,
+                }
+            },
+        },
     },
-    
+
+
 });
 
 module.exports = mongoose.model("Semilleros", semilleroSchema);

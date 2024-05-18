@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router(); //manejador de rutas de express
 const usuariosSchema = require("../models/usuarios");
+const semilleroSchema = require("../models/semillero");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("./validate_token");
 
@@ -67,6 +68,31 @@ router.post("/login", async (req, res) => {
     }
 });
 
+//POST para registro de administradores
+router.post("/registroAdmin", /*verifyToken,*/ async (req, res) => {
+    const { nombre, correo, clave, cedula } = req.body;
+
+    const moment = require('moment');
+    const fechaActual = moment().format('YYYY-MM-DD HH:mm:ss');
+
+    const admin = new usuariosSchema({
+        nombre: nombre,
+        correo: correo,
+        clave: clave,
+        cedula: cedula,
+        rol: 1, //El rol para lider sera el numero 2 en Mongo
+        fechaRegistro: fechaActual, //Obtener la fecha y hora de registro del lider
+    });
+
+    admin.clave = await admin.encryptClave(admin.clave);
+    await admin.save(); //save es un método de mongoose para guardar datos en MongoDB //segundo parámetro: un texto que hace que el código generado sea único //tercer parámetro: tiempo de expiración (en segundos, 24 horas en segundos)
+    //primer parámetro: payload - un dato que se agrega para generar el token
+    res.json({
+        auth: true,
+        admin,
+    });
+});
+
 //POST para registro de lideres de Semillero
 router.post("/registroLider", /*verifyToken,*/ async (req, res) => {
     const { nombre, correo, clave, cedula } = req.body;
@@ -80,7 +106,7 @@ router.post("/registroLider", /*verifyToken,*/ async (req, res) => {
         clave: clave,
         cedula: cedula,
         rol: 2, //El rol para lider sera el numero 2 en Mongo
-        fechaRegistro: fechaActual, //Obtener la fecha y hora de registro del lider
+        fechaCreacion: fechaActual, //Obtener la fecha y hora de registro del lider
     });
 
     lider.clave = await lider.encryptClave(lider.clave);
@@ -91,6 +117,16 @@ router.post("/registroLider", /*verifyToken,*/ async (req, res) => {
         lider,
     });
 });
+
+//Consultar los Administradores que existen
+router.get("/administradores", /*verifyToken,*/ async (req, res) => {
+
+    // Buscar todos los líderes de semillero
+    const admins = await usuariosSchema.find({ rol: 1 });
+    res.json(admins);
+
+});
+
 
 //Consultar los lideres de semilleros que existen
 router.get("/lideres", /*verifyToken,*/ async (req, res) => {
@@ -154,6 +190,92 @@ router.put("/actualizarLider/:id", /*verifyToken,*/ async (req, res) => {
     } catch (error) {
         res.json({ message: error });
         res.status(500).json({ message: "Error al actualizar el líder" });
+    }
+
+});
+
+//Actualizar la informacion sobre un admin
+router.put("/actualizarAdmin/:id", /*verifyToken,*/ async (req, res) => {
+
+    //Obtener fecha y hora actual de la actualizacion
+    const moment = require('moment');
+    const fechaActual = moment().format('YYYY-MM-DD HH:mm:ss');
+
+    const idAdmin = req.params.id;
+    const admin = await usuariosSchema.findOne({ _id: idAdmin, rol: 2 });
+
+    if (!admin) {
+        return res.status(404).json({ message: "Administrador no encontrado" });
+    }
+
+    try {
+
+        const { nombre, correo, clave, cedula } = req.body;
+
+        // Validar datos de entrada (formato, restricciones, etc.)
+
+        await usuariosSchema.updateOne(
+            { _id: idAdmin },
+            {
+                $set: {
+                    nombre,
+                    correo,
+                    clave,
+                    cedula,
+                    rol: 2,
+                    fechaRegistro: fechaActual,
+                },
+            }
+        );
+
+        res.json({ message: "Administrador actualizado correctamente" });
+
+    } catch (error) {
+        res.json({ message: error });
+        res.status(500).json({ message: "Error al actualizar el Administrador" });
+    }
+
+});
+
+//Actualizar los datos de un estudiante
+router.put("/actualizarEstudiante/:id", /*verifyToken,*/ async (req, res) => {
+
+    //Obtener fecha y hora actual de la actualizacion
+    const moment = require('moment');
+    const fechaActual = moment().format('YYYY-MM-DD HH:mm:ss');
+
+    const idEstudiante = req.params.id;
+    const estudiante = await usuariosSchema.findOne({ _id: idEstudiante, rol: 3 });
+
+    if (!estudiante) {
+        return res.status(404).json({ message: "Estudiante no encontrado" });
+    }
+
+    try {
+
+        const { nombre, correo, clave, cedula } = req.body;
+
+        // Validar datos de entrada (formato, restricciones, etc.)
+
+        await usuariosSchema.updateOne(
+            { _id: idEstudiante },
+            {
+                $set: {
+                    nombre,
+                    correo,
+                    clave,
+                    cedula,
+                    rol: 3,
+                    fechaRegistro: fechaActual,
+                },
+            }
+        );
+
+        res.json({ message: "Estudiante actualizado correctamente" });
+
+    } catch (error) {
+        res.json({ message: error });
+        res.status(500).json({ message: "Error al actualizar el Estudiante" });
     }
 
 });
