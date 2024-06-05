@@ -25,7 +25,7 @@ const usuariosSchema = mongoose.Schema({
         required: true,
     },
     rol: {
-        type: Number, //1: Admin 2: Lider de Semillero 3: Estudiante
+        type: String, //1: Admin 2: Lider de Semillero 3: Estudiante
         required: true,
     },
 

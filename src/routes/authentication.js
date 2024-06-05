@@ -18,7 +18,7 @@ router.post("/signup", async (req, res) => {
         correo: correo,
         clave: clave,
         cedula: cedula,
-        rol: 3, //El rol para Estudiante sera el numero 3 en Mongo
+        rol: '3', //El rol para Estudiante sera el numero 3 en Mongo
         fechaRegistro: fechaActual, //Obtener la fecha y la hora de registro del estudiante
     });
     estudiante.clave = await estudiante.encryptClave(estudiante.clave);
@@ -85,7 +85,7 @@ router.post("/registroAdministrador", /*verifyToken,*/ async (req, res) => {
         correo: correo,
         clave: clave,
         cedula: cedula,
-        rol: 1, //El rol para lider sera el numero 2 en Mongo
+        rol: '1', //El rol para lider sera el numero 2 en Mongo
         fechaRegistro: fechaActual, //Obtener la fecha y hora de registro del lider
     });
 
@@ -99,7 +99,7 @@ router.post("/registroAdministrador", /*verifyToken,*/ async (req, res) => {
 });
 
 //POST para registro de lideres de Semillero
-router.post("/registroLider", /*verifyToken,*/ async (req, res) => {
+router.post("/registroLider", verifyToken, async (req, res) => {
     const { nombre, correo, clave, cedula } = req.body;
 
     const moment = require('moment');
@@ -110,8 +110,8 @@ router.post("/registroLider", /*verifyToken,*/ async (req, res) => {
         correo: correo,
         clave: clave,
         cedula: cedula,
-        rol: 2, //El rol para lider sera el numero 2 en Mongo
-        fechaCreacion: fechaActual, //Obtener la fecha y hora de registro del lider
+        rol: '2', //El rol para lider sera el numero 2 en Mongo
+        fechaRegistro: fechaActual, //Obtener la fecha y hora de registro del lider
     });
 
     lider.clave = await lider.encryptClave(lider.clave);
@@ -127,27 +127,27 @@ router.post("/registroLider", /*verifyToken,*/ async (req, res) => {
 router.get("/administradores", /*verifyToken,*/ async (req, res) => {
 
     // Buscar todos los líderes de semillero
-    const admins = await usuariosSchema.find({ rol: 1 });
+    const admins = await usuariosSchema.find({ rol: '1' });
     res.json(admins);
 
 });
 
 
 //Consultar los lideres de semilleros que existen
-router.get("/lideres", /*verifyToken,*/ async (req, res) => {
+router.get("/lideres", verifyToken, async (req, res) => {
 
     // Buscar todos los líderes de semillero
-    const lideres = await usuariosSchema.find({ rol: 2 });
+    const lideres = await usuariosSchema.find({ rol: '2' });
     res.json(lideres);
 
 });
 
 //Consultar la informacion de solo un lider de semillero
-router.get("/liderID/:id", /*verifyToken,*/ async (req, res) => {
+router.get("/lideres/:id", /*verifyToken,*/ async (req, res) => {
 
     // Buscar al lider de semillero
     const idLider = req.params.id;
-    const lider = await usuariosSchema.findOne({ _id: idLider, rol: 2 });
+    const lider = await usuariosSchema.findOne({ _id: idLider, rol: '2' });
 
     if (!lider) {
         return res.status(404).json({ message: "Líder no encontrado" });
@@ -164,7 +164,7 @@ router.put("/actualizarLider/:id", /*verifyToken,*/ async (req, res) => {
     const fechaActual = moment().format('YYYY-MM-DD HH:mm:ss');
 
     const idLider = req.params.id;
-    const lider = await usuariosSchema.findOne({ _id: idLider, rol: 2 });
+    const lider = await usuariosSchema.findOne({ _id: idLider, rol: '2' });
 
     if (!lider) {
         return res.status(404).json({ message: "Líder no encontrado" });
@@ -184,7 +184,7 @@ router.put("/actualizarLider/:id", /*verifyToken,*/ async (req, res) => {
                     correo,
                     clave,
                     cedula,
-                    rol: 2,
+                    rol: '2',
                     fechaRegistro: fechaActual,
                 },
             }
@@ -207,7 +207,7 @@ router.put("/actualizarAdministrador/:id", /*verifyToken,*/ async (req, res) => 
     const fechaActual = moment().format('YYYY-MM-DD HH:mm:ss');
 
     const idAdmin = req.params.id;
-    const admin = await usuariosSchema.findOne({ _id: idAdmin, rol: 1 });
+    const admin = await usuariosSchema.findOne({ _id: idAdmin, rol: '1' });
 
     if (!admin) {
         return res.status(404).json({ message: "Administrador no encontrado" });
@@ -227,7 +227,7 @@ router.put("/actualizarAdministrador/:id", /*verifyToken,*/ async (req, res) => 
                     correo,
                     clave,
                     cedula,
-                    rol: 1,
+                    rol: '1',
                     fechaRegistro: fechaActual,
                 },
             }
@@ -250,7 +250,7 @@ router.put("/actualizarEstudiante/:id", /*verifyToken,*/ async (req, res) => {
     const fechaActual = moment().format('YYYY-MM-DD HH:mm:ss');
 
     const idEstudiante = req.params.id;
-    const estudiante = await usuariosSchema.findOne({ _id: idEstudiante, rol: 3 });
+    const estudiante = await usuariosSchema.findOne({ _id: idEstudiante, rol: '3' });
 
     if (!estudiante) {
         return res.status(404).json({ message: "Estudiante no encontrado" });
@@ -270,7 +270,7 @@ router.put("/actualizarEstudiante/:id", /*verifyToken,*/ async (req, res) => {
                     correo,
                     clave,
                     cedula,
-                    rol: 3,
+                    rol: '3',
                     fechaRegistro: fechaActual,
                 },
             }
@@ -289,7 +289,7 @@ router.put("/actualizarEstudiante/:id", /*verifyToken,*/ async (req, res) => {
 router.delete("/eliminarLider/:id", /*verifyToken,*/ async (req, res) => {
 
     const idLider = req.params.id;
-    const lider = await usuariosSchema.findOne({ _id: idLider, rol: 2 });
+    const lider = await usuariosSchema.findOne({ _id: idLider, rol: '2' });
 
     if (!lider) {
         return res.status(404).json({ message: "Líder no encontrado" });
@@ -315,7 +315,7 @@ router.delete("/eliminarLider/:id", /*verifyToken,*/ async (req, res) => {
 router.delete("/eliminarEstudiante/:id", /*verifyToken,*/ async (req, res) => {
 
     const idEstudiante = req.params.id;
-    const estudiante = await usuariosSchema.findOne({ _id: idLider, rol: 3 });
+    const estudiante = await usuariosSchema.findOne({ _id: idLider, rol: '3' });
 
     if (!estudiante) {
         return res.status(404).json({ message: "Estudiante no encontrado" });
