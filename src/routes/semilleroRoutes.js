@@ -33,7 +33,7 @@ router.post("/registroSemillero", /*verifyToken,*/ async (req, res) => {
 });
 
 //Metodo Post para realizar el registro de un estudiante en un semillero
-router.post("/semilleros/:id/estudiantes", /*verifyToken,*/ async (req, res) => {
+router.put("/semilleros/:id/estudiantes", /*verifyToken,*/ async (req, res) => {
 
     const idSemillero = req.params.id;
     const semillero = await semilleroSchema.findOne({ _id: idSemillero });
@@ -53,30 +53,41 @@ router.post("/semilleros/:id/estudiantes", /*verifyToken,*/ async (req, res) => 
         return res.status(400).json({ message: "El usuario no es un estudiante" });
     }
 
-    const idEstudiante = estudianteEncontrado._id.toString();
-    const nombreEstudiante = estudianteEncontrado.nombre;
-    const cedulaEstudiante = estudianteEncontrado.cedula;
-    const nombreSemillero = semillero.nombreSemillero;
 
-    const nuevoEstudiante = {
+    const idEstudiante = estudianteEncontrado._id;
+
+    semilleroSchema
+        .updateOne({ _id: idSemillero }, {
+            $addToSet: { integrantes: idEstudiante }
+        })
+        .then((data) => res.json(data))
+        .catch((error) => {
+            res.json({ message: error });
+        });
+
+    /*const nombreEstudiante = estudianteEncontrado.nombre;
+    const cedulaEstudiante = estudianteEncontrado.cedula;
+    const nombreSemillero = semillero.nombreSemillero;*/
+
+    /*const nuevoEstudiante = {
         idEstudiante: idEstudiante,
         nombre: nombreEstudiante,
         correo,
         cedula: cedulaEstudiante,
         semillero: nombreSemillero,
-    };
+    };*/
 
     // Guardar el estudiante encontrado (opcional)
     //await nuevoEstudiante.save();
 
-    const participantesExistentes = semillero.integrantes;
-    participantesExistentes.push(nuevoEstudiante);
+    /*const participantesExistentes = semillero.integrantes;
+    participantesExistentes.push(idEstudiante);
 
     await semillero.updateOne({
         integrantes: participantesExistentes,
     });
 
-    res.json({ message: "Estudiante registrado correctamente" });
+    res.json({ message: "Estudiante registrado correctamente" });*/
 });
 
 //Actualizar un integrante de un semillero
@@ -163,7 +174,7 @@ router.put("/semilleros/:id/estudiantes/:idEstudiante", /*verifyToken,*/ async (
 });
 
 //Consultar todos los semilleros
-router.get("/semilleros", /*verifyToken,*/(req, res) => {
+router.get("/semilleros", verifyToken, (req, res) => {
     semilleroSchema
         .find()
         .then((data) => {
@@ -177,7 +188,11 @@ router.get("/semilleros", /*verifyToken,*/(req, res) => {
 //Consultar un semillero en especifico
 router.get("/semilleros/:id", /*verifyToken,*/(req, res) => {
     semilleroSchema
-        .find()
+        .findOne( {_id: req.params.id } )
+        .populate({
+            path: 'integrantes',
+            select: 'nombre correo'
+        })
         .then((data) => {
             res.json(data);
         })
@@ -187,7 +202,7 @@ router.get("/semilleros/:id", /*verifyToken,*/(req, res) => {
 });
 
 //Actualizar un semillero en especifico (Solo lo podran hacer tanto el ADMIN como el LIDER DE SEMILLERO)
-router.put("/semilleros/:id", /*verifyToken,*/(req, res) => {
+router.put("/actualizarSemilleros/:id", /*verifyToken,*/(req, res) => {
 
     //Actualizacion de la fecha y la hora de edicion del registro
     const moment = require('moment');
@@ -219,7 +234,7 @@ router.put("/semilleros/:id", /*verifyToken,*/(req, res) => {
 });
 
 //Eliminar un semillero en especifico (Solo lo podran utilizar el rol de ADMIN y de LIDER DE SEMILLERO)
-router.delete("/semilleros/:id", /*verifyToken,*/(req, res) => {
+router.delete("/eliminarSemilleros/:id", /*verifyToken,*/(req, res) => {
     const { id } = req.params;
 
     semilleroSchema

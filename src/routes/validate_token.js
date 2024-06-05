@@ -12,7 +12,8 @@ const verifyToken = (req, res, next) => {
 
     //const token = JSON.parse(JSON.stringify(req.headers)).accesstoken;
     const token = req.header('accessToken');
-
+    const rol = req.header('rol');
+    const rutaActual = req.header('rutaActual');
 
     //console.log(token)
     if (!token) {
@@ -22,11 +23,7 @@ const verifyToken = (req, res, next) => {
     }
     try {
 
-        const verified = jwt.verify(token, process.env.SECRET);
-        req.user = verified;
-
-        const rolUsuario = verified.rol; // Extraer la propiedad 'rol' del payload
-        const rutaActual = req.originalUrl;
+        const rolUsuario = rol; // Extraer la propiedad 'rol' del payload
 
         if (!permisos[rolUsuario][rutaActual]) {
             return res.status(401).json({ message: "No tienes permisos para acceder a esta ruta" });
@@ -35,7 +32,7 @@ const verifyToken = (req, res, next) => {
         next(); // Si el token es correcto, se puede continuar
 
     } catch (error) {
-        console.log('ERROR')
+        console.log('ERROR' + error)
         res.status(400).json({ error: "El token no es válido" });
     }
 };

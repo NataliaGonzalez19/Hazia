@@ -28,6 +28,9 @@ router.post("/signup", async (req, res) => {
         auth: true,
         estudiante,
     });
+
+    console.log('Registro de nuevo estudiante');
+
 });
 
 //inicio de sesión
@@ -64,12 +67,14 @@ router.post("/login", async (req, res) => {
         accessToken: accessToken,
         expiresIn: expiresIn,
         });*/
-        res.json({ accessToken });
+        res.json({ accessToken,
+            rol: user.rol
+        });
     }
 });
 
-//POST para registro de administradores
-router.post("/registroAdmin", /*verifyToken,*/ async (req, res) => {
+//POST para registro de Administradores
+router.post("/registroAdministrador", /*verifyToken,*/ async (req, res) => {
     const { nombre, correo, clave, cedula } = req.body;
 
     const moment = require('moment');
@@ -195,14 +200,14 @@ router.put("/actualizarLider/:id", /*verifyToken,*/ async (req, res) => {
 });
 
 //Actualizar la informacion sobre un admin
-router.put("/actualizarAdmin/:id", /*verifyToken,*/ async (req, res) => {
+router.put("/actualizarAdministrador/:id", /*verifyToken,*/ async (req, res) => {
 
     //Obtener fecha y hora actual de la actualizacion
     const moment = require('moment');
     const fechaActual = moment().format('YYYY-MM-DD HH:mm:ss');
 
     const idAdmin = req.params.id;
-    const admin = await usuariosSchema.findOne({ _id: idAdmin, rol: 2 });
+    const admin = await usuariosSchema.findOne({ _id: idAdmin, rol: 1 });
 
     if (!admin) {
         return res.status(404).json({ message: "Administrador no encontrado" });
@@ -222,7 +227,7 @@ router.put("/actualizarAdmin/:id", /*verifyToken,*/ async (req, res) => {
                     correo,
                     clave,
                     cedula,
-                    rol: 2,
+                    rol: 1,
                     fechaRegistro: fechaActual,
                 },
             }
@@ -302,7 +307,33 @@ router.delete("/eliminarLider/:id", /*verifyToken,*/ async (req, res) => {
 
     } catch (error) {
         res.json({ message: error });
-        res.status(500).json({ message: "Error al actualizar el líder" });
+        res.status(500).json({ message: "Error al eliminar el líder" });
+    }
+});
+
+//Eliminar un estudiante
+router.delete("/eliminarEstudiante/:id", /*verifyToken,*/ async (req, res) => {
+
+    const idEstudiante = req.params.id;
+    const estudiante = await usuariosSchema.findOne({ _id: idLider, rol: 3 });
+
+    if (!estudiante) {
+        return res.status(404).json({ message: "Estudiante no encontrado" });
+    }
+
+    try {
+
+        // Validar datos de entrada (formato, restricciones, etc.)
+
+        await usuariosSchema.findByIdAndDelete(
+            { _id: idEstudiante },
+        );
+
+        res.json({ message: "Se elimino el estudiante correctamente." });
+
+    } catch (error) {
+        res.json({ message: error });
+        res.status(500).json({ message: "Error al eliminar el estudiante" });
     }
 });
 
